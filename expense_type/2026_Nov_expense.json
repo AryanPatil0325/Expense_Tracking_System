@@ -1,1 +1,26 @@
-[]
+[
+    {
+        "date": "2026-11-11",
+        "expenses": {
+            "Food": 600.0,
+            "Entertainment": 300.0,
+            "Medical": 1000.0
+        }
+    },
+    {
+        "date": "2026-11-12",
+        "expenses": {
+            "Food": 500.0,
+            "Entertainment": 100.0,
+            "Medical": 100.0
+        }
+    },
+    {
+        "date": "2026-11-13",
+        "expenses": {
+            "Food": 100.0,
+            "Entertainment": 200.0,
+            "Medical": 0
+        }
+    }
+]

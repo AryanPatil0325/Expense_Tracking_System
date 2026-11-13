@@ -1,5 +1,6 @@
-from global_expense_dict import EXPENSE_CATEGORY
+from global_expense_dict import EXPENSE_CATEGORY, BASE_DIR
 import json
+import os
 
 def input_expense_type():
     """Function that will take input from user about expense type and store it in an json file inside expense_type directory"""
@@ -78,4 +79,15 @@ def current_expense():
     print("|-----------------------------------|")
     print(f"Total Amount: {total_expense}")
     print("|-----------------------------------|")
-        
+
+def load_existing_expense_categories():
+    path = os.path.join(BASE_DIR,"expense_type","expense_categories.json")
+    if os.path.isfile(path):
+        print("Loading the existing expense categories...")
+        with open(path,'r') as file:
+            data = json.load(file)
+            print("File loaded successfully")
+        for expense_cat in data:
+            EXPENSE_CATEGORY[expense_cat]=0
+        print("Expense category loaded and initialized")
+    

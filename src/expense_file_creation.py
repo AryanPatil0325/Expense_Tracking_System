@@ -1,7 +1,7 @@
 from datetime import date
 import os
 import json
-from global_expense_dict import EXPENSE_DIR
+from global_expense_dict import BASE_DIR
 
 MONTHS = {1:"Jan",2:"Feb",3:"Mar",4:"Apr",5:"May",6:"Jun",7:"Jul",8:"Aug",9:"Sep",10:"Oct",11:"Nov",12:"Dec"}
 
@@ -14,7 +14,7 @@ def create_json_files_on_monthly_basis():
 
     filename = f"{current_year}_{current_month_name}_expense.json"
 
-    directory = os.path.join(EXPENSE_DIR, "expense_type")
+    directory = os.path.join(BASE_DIR, "expense_type")
     os.makedirs(directory, exist_ok=True)
 
     path = os.path.join(directory, filename)
