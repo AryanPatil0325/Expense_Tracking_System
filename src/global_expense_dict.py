@@ -5,4 +5,3 @@ EXPENSE_CATEGORY = {}
 # os.path.dirname = goes one level up -> C:\Projects\Expense_Tracking_System\src
 # os.path.dirname = goes one level up -> C:\Projects\Expense_Tracking_System\ -> BASE_DIR
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# EXPENSE_DIR = os.path.join(BASE_DIR, "expense_type")

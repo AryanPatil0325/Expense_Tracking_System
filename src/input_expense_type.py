@@ -8,8 +8,8 @@ def input_expense_type():
     file_exists = True
     while file_exists:
         print("""Choose anyone from below:
-                    1. Enter expense category
-                    2. Exit
+            1. Enter expense category
+            2. Exit
         """)
         option_selected = int(input("Your choice... "))
         match(option_selected):
@@ -32,10 +32,9 @@ def print_all_expense_types_loaded():
     """Function which will print all the expense categories added to the EXPENSE_CATEGORY"""
     if len(EXPENSE_CATEGORY) == 0:
         return "No Expense Categories present. Add one to continue"
-    print("""|-------------------------------------|
-                        Expense Categories Available
-    |-------------------------------------|
-    """)
+    print("|-------------------------------------|")
+    print("     Expense Categories Available      ")                   
+    print("|-------------------------------------|")
     for cat in EXPENSE_CATEGORY.keys():
         print(cat)
     print("|-----------------------------------|")
@@ -67,10 +66,9 @@ def input_amount_for_expense_cat():
 
 def current_expense():
     """Function to print the current amount spend by user"""
-    print("""|-------------------------------------|
-                       Current Expenses
-    |-------------------------------------|
-        """)
+    print("|-------------------------------------|")
+    print("          Current Expenses             ")                  
+    print("|-------------------------------------|")
     total_expense = 0
     for cat,value in EXPENSE_CATEGORY.items():
         print(f"{cat} : Rs.{value}")
