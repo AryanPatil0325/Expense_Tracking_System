@@ -16,34 +16,32 @@ def load_expense_file(filename:str):
 def dump_existing_data():
     filename = create_json_files_on_monthly_basis()
     path = os.path.join(BASE_DIR,"expense_type",filename)
-    # Case 1: File is empty -> add the records
-    data = load_expense_file(filename)
-    if len(data) == 0:
-        with open(path,'w') as file:
-            data.append({"date":str(date.today().isoformat()),"expenses":EXPENSE_CATEGORY.copy()})
-            json.dump(data,file,indent=4)
-            print(f"Record {EXPENSE_CATEGORY} stored successfully in {filename}")
-            return
-
-    # Case 2: File exists with current record
     current_record_present = False
-    for record in data:
-        if record['date'] == str(date.today().isoformat()):
-            current_record_present = True
-            for new_expense_type in EXPENSE_CATEGORY.keys():
-                if new_expense_type not in record['expenses']:
-                    record['expenses'][new_expense_type] = 0
-                record['expenses'][new_expense_type] += EXPENSE_CATEGORY[new_expense_type]
-            print("Record updated successfully")
-            break
+    # Case 1: File is empty -> add the records
+    try:
+        data = load_expense_file(filename)
+    except FileNotFoundError as e:
+        print(f"{filename} file not found")
+    if len(data) == 0:
+        data.append({"date":str(date.today().isoformat()),"expenses":EXPENSE_CATEGORY.copy()})
+    else:
+    # Case 2: File exists with current record
+        for record in data:
+            if record['date'] == str(date.today().isoformat()):
+                current_record_present = True
+                for new_expense_type in EXPENSE_CATEGORY.keys():
+                    if new_expense_type not in record['expenses']:
+                        record['expenses'][new_expense_type] = 0
+                    record['expenses'][new_expense_type] += EXPENSE_CATEGORY[new_expense_type]
+                print("Record updated successfully")
+                break
 
     # Case 3: File exists with no record
     if not current_record_present:
         with open(path,'w') as file:
             data.append({"date":str(date.today().isoformat()),"expenses":EXPENSE_CATEGORY})
-            json.dump(data,file,indent=4)
-        print("Record updated successfully")
-        return
+        #     json.dump(data,file,indent=4)
+        # print("Record updated successfully")
 
     # Load the new data to file
     with open(path,'w') as file:

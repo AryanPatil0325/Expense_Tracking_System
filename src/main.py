@@ -10,7 +10,8 @@ def display_menu():
         | 1. Add Expense Type                        |
         | 2. Add Expense                             |
         | 3. View Current Expenses                   |
-        | 4. Exit                                    |
+        | 4. View Current Month Expenses             |
+        | 5. Exit                                    |
         |--------------------------------------------|
     """)
 
@@ -24,28 +25,34 @@ def handle_menu_choice(choice:int):
             case 3:
                 current_expense()
             case 4:
-                dump_existing_data()
                 view_till_date_history()
+            case 5:
+                # dump_existing_data()
                 print("Thanks for using Expense Tracker System...")
             case _:
                 print("Invalid Choice...Re-enter your choice")
-    
-                
+                    
     
 def main():
     # initialize the existing expense category
     load_existing_expense_categories()
     # display menu and handle choices
-    while True:
-        try:
-            display_menu()
-            choice = int(input("Enter you choice: "))
-            handle_menu_choice(choice)
-            if choice == 4:
+    try:
+        while True:
+            try:
+                display_menu()
+                choice = int(input("Enter you choice: "))
+                handle_menu_choice(choice)
+                if choice == 5:
+                    break
+            except ValueError:
+                print("Please enter a valid choice..")
+            except KeyboardInterrupt:
+                print("Application Interrupted by user")
                 break
-        except ValueError as e:
-                print(f"Select choice as per the displayed menu: {e}")
-        
+    finally:
+        # store the existing data 
+        dump_existing_data()
 
 if __name__ == "__main__":
     main()
