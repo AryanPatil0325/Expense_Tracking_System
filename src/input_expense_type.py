@@ -4,6 +4,7 @@ import os
 
 def input_expense_type():
     """Function that will take input from user about expense type and store it in an json file inside expense_type directory"""
+    
     filename = "expense_categories.json"
     file_exists = True
     while file_exists:
@@ -14,8 +15,10 @@ def input_expense_type():
         option_selected = int(input("Your choice... "))
         match(option_selected):
             case 1:
-                expense_category = input("Enter expense category: ")
-                if expense_category not in EXPENSE_CATEGORY:
+                expense_category = input("Enter expense category: ").lower()
+                if not expense_category.isalpha():
+                    print(f"Invalid Expense Category: {expense_category}. Expense Category should contain only alphabets")
+                elif expense_category not in EXPENSE_CATEGORY:
                     EXPENSE_CATEGORY[expense_category] = 0
                     print(f"{expense_category} stored successfully")
                 else:
@@ -26,6 +29,8 @@ def input_expense_type():
                     json.dump(list(EXPENSE_CATEGORY.keys()),file,indent=4)
                 file_exists = False
                 break
+            case _:
+                print("Invalid choice...select appropriate option")
 
 
 def print_all_expense_types_loaded():
@@ -36,7 +41,7 @@ def print_all_expense_types_loaded():
     print("     Expense Categories Available      ")                   
     print("|-------------------------------------|")
     for cat in EXPENSE_CATEGORY.keys():
-        print(cat)
+        print(cat.title())
     print("|-----------------------------------|")
 
 
@@ -48,11 +53,14 @@ def input_amount_for_expense_cat():
     print_all_expense_types_loaded()
     exit= True
     while exit:
-        expense_cat = input("Enter the Expense Category: ")
+        expense_cat = input("Enter the Expense Category: ").lower()
+        if not expense_cat.isalpha():
+            print("Expense Category should contain alphabets only.")
+            return
         expense_amt = float(input("Amount spend: "))
-        
         if expense_amt<0:
-            return "Amount cannot be negative.Re-enter the amount"
+            print("Amount cannot be negative.Re-enter the amount") 
+            return
 
         if expense_cat.isalpha() and len(EXPENSE_CATEGORY)!=0 and expense_cat in EXPENSE_CATEGORY:
             EXPENSE_CATEGORY[expense_cat]+=expense_amt
@@ -71,7 +79,7 @@ def current_expense():
     print("|-------------------------------------|")
     total_expense = 0
     for cat,value in EXPENSE_CATEGORY.items():
-        print(f"{cat} : Rs.{value}")
+        print(f"{cat.title()} : Rs.{value}")
         total_expense+=value
     
     print("|-----------------------------------|")

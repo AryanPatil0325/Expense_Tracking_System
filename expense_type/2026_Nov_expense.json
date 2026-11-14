@@ -2,19 +2,9 @@
     {
         "date": "2026-11-14",
         "expenses": {
-            "Food": 0,
-            "Entertainment": 0,
-            "Medical": 0,
-            "Travel": 0
-        }
-    },
-    {
-        "date": "2026-11-14",
-        "expenses": {
-            "Food": 0,
-            "Entertainment": 0,
-            "Medical": 0,
-            "Travel": 0
+            "food": 200.0,
+            "entertainment": 200.0,
+            "travel": 0
         }
     }
 ]
