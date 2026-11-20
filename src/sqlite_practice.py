@@ -1,33 +1,33 @@
-import sqlite3
+# import sqlite3
 
-conn = sqlite3.connect("practice.db")
-cursor = conn.cursor()
-print("Connection created..")
+# conn = sqlite3.connect("practice.db")
+# cursor = conn.cursor()
+# print("Connection created..")
+# # cursor.execute("""
+# # CREATE TABLE IF NOT EXISTS students(
+# #     ID INTEGER PRIMARY KEY AUTOINCREMENT,
+# #     NAME TEXT NOT NULL,
+# #     AGE INTEGER,
+# #     GRADE TEXT
+# # )
+# # """)
+# # constants
+# # cursor.execute("Drop Table students")
+# # cursor.execute("Select * from students")
+# # print(cursor.fetchone())
+
+
 # cursor.execute("""
-# CREATE TABLE IF NOT EXISTS students(
-#     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-#     NAME TEXT NOT NULL,
-#     AGE INTEGER,
-#     GRADE TEXT
+# CREATE TABLE if not exists expense_categories (
+#     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#     category_name TEXT NOT NULL UNIQUE
 # )
 # """)
-# constants
-# cursor.execute("Drop Table students")
-# cursor.execute("Select * from students")
-# print(cursor.fetchone())
 
+# conn.commit()
 
-cursor.execute("""
-CREATE TABLE if not exists expense_categories (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    category_name TEXT NOT NULL UNIQUE
-)
-""")
-
-conn.commit()
-
-cursor.execute("PRAGMA table_info(expense_categories);") # print the metadata
-print(cursor.fetchall())
+# cursor.execute("PRAGMA table_info(expense_categories);") # print the metadata
+# print(cursor.fetchall())
 
 # UPDATE expense_categories
 # SET category_name = ?

@@ -54,7 +54,7 @@ def view_till_date_history():
     print("               Total Expense              ")
     print("|----------------------------------------|")
     for category,amt in total_history.items():
-        print(f"{category}: {amt}")
+        print(f"{category.upper()}: {amt}")
     print("|----------------------------------------|")
     print(f"Total Amount: Rs.{sum(total_history.values())}")
 

@@ -1,5 +1,6 @@
-from input_expense_type import input_expense_type, print_all_expense_types_loaded,input_amount_for_expense_cat,current_expense, load_existing_expense_categories
+from input_expense_type import input_expense_type, print_all_expense_types_loaded,input_amount_for_expense_cat,current_expense
 from loading_data import dump_existing_data, view_till_date_history
+from database import sqlite_cat_load_to_expense_categories, create_tables,CONN
 
 def display_menu():
     print("-"*50)
@@ -31,13 +32,17 @@ def handle_menu_choice(choice:int):
                 print("Thanks for using Expense Tracker System...")
             case _:
                 print("Invalid Choice...Re-enter your choice")
+
                     
     
 def main():
-    # initialize the existing expense category
-    load_existing_expense_categories()
+
     # display menu and handle choices
     try:
+        # Table created
+        create_tables()
+        # initialize the existing expense category
+        sqlite_cat_load_to_expense_categories()
         while True:
             try:
                 display_menu()
@@ -53,6 +58,7 @@ def main():
     finally:
         # store the existing data 
         dump_existing_data()
+        CONN.close()
 
 if __name__ == "__main__":
     main()
