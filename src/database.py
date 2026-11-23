@@ -9,16 +9,18 @@ def initialize_database(db_name="expense_transactions.db"):
     directory = os.path.join(BASE_DIR, "database")
     os.makedirs(directory, exist_ok=True)
     path = os.path.join(directory, db_name)
+
+    db_exists = os.path.exists(path)
     
     connection = sqlite3.connect(path)
 
-    # Enable foreign key enforcement for this connection
-    connection.execute("PRAGMA foreign_keys = ON")
-
-    if not path:
+    if not db_exists:
         print(f"Database file {db_name} created successfully...")
     else:
         print(f"{db_name} database already exists...")
+
+    # Enable foreign key enforcement for this connection
+    connection.execute("PRAGMA foreign_keys = ON")
 
     print(f"Connection established with {db_name}")
     return connection
@@ -112,15 +114,14 @@ def load_monthly_expense_in_db(category_id,amount,timestamp):
     columns: id, category_id, amount, timestamp
     """
     cursor = CONN.cursor()
-
     try:
         cursor.execute("INSERT OR IGNORE INTO expense_transactions(category_id,amount,timestamp) VALUES(?,?,?)",(category_id,amount,timestamp))
         CONN.commit()
         print("Record saved successfully...")
     except sqlite3.Error as error:
         CONN.rollback()
-        print(f"Error type: {type(error).__name__}")
-        print(f"Error message: {repr(error)}")
+        raise
+        
     finally:
         cursor.close()
 

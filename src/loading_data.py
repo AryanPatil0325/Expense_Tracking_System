@@ -36,7 +36,7 @@ def dump_existing_data():
 
         # Case 3: File exists with no record
         if not current_record_present:
-            data.append({"date":str(date.today().isoformat()),"expenses":EXPENSE_CATEGORY})
+            data.append({"date":str(date.today().isoformat()),"expenses":EXPENSE_CATEGORY.copy()})
 
     # Load the new data to file
     with open(path,'w') as file:

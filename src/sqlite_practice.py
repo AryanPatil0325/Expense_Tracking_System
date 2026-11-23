@@ -1,7 +1,9 @@
-# import sqlite3
+import sqlite3
 
-# conn = sqlite3.connect("practice.db")
-# cursor = conn.cursor()
+conn = sqlite3.connect("Expense_Tracking_System/database/expense_transactions.db")
+cursor = conn.cursor()
+cursor.execute("DELETE FROM expense_categories WHERE id = 5")
+conn.commit()
 # print("Connection created..")
 # # cursor.execute("""
 # # CREATE TABLE IF NOT EXISTS students(
