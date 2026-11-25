@@ -30,5 +30,23 @@
             "y": 6.0,
             "test": 500.0
         }
+    },
+    {
+        "date": "2026-11-25",
+        "expenses": {
+            "food": 100.0,
+            "entertainment": 150.0,
+            "health": 200.0,
+            "shopping": 0,
+            "abc": 0,
+            "x": 0,
+            "y": 0,
+            "test": 0,
+            "eating out": 200.0,
+            "shopping at mall": 0,
+            "": 0,
+            "rent/utility": 0,
+            "food_hi": 0
+        }
     }
 ]

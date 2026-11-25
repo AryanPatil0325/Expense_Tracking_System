@@ -2,7 +2,7 @@ import sqlite3
 
 conn = sqlite3.connect("Expense_Tracking_System/database/expense_transactions.db")
 cursor = conn.cursor()
-cursor.execute("DELETE FROM expense_categories WHERE id = 5")
+cursor.execute("DELETE FROM expense_categories WHERE id = 13")
 conn.commit()
 # print("Connection created..")
 # # cursor.execute("""

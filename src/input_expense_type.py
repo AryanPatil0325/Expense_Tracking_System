@@ -1,15 +1,24 @@
-from global_expense_dict import EXPENSE_CATEGORY, BASE_DIR, CATEGORY_ID_MAP
-from database import initialize_database, load_monthly_expense_in_db,CONN
+from global_expense_dict import EXPENSE_CATEGORY, CATEGORY_ID_MAP
+from database import load_monthly_expense_in_db,CONN
 import sqlite3
 from datetime import datetime
 import math
+import re
+
+def check_valid_expense_category(exp_category:str):
+    """Function to check valid expense category entered
+    Accepted Conditions:
+        Starts with letters 
+        Can contain symbols like / - _ & and space
+    """
+    is_valid_exp_category = True
+    if not re.fullmatch(r"[A-Za-z]+(?:[ &_/-][A-Za-z]+)*", exp_category):
+        is_valid_exp_category = False
+    return is_valid_exp_category
 
 def input_expense_type():
-    """Function that will take input from user about expense type and store it in an json file inside expense_type directory"""
-    
-    filename = "expense_categories.json"
-    file_exists = True
-    while file_exists:
+    """Function that will take input from user about expense type and store it in expense_transaction.db"""
+    while True:
         print("""Choose anyone from below:
             1. Enter expense category
             2. Exit
@@ -22,33 +31,31 @@ def input_expense_type():
 
         match(option_selected):
             case 1:
-                expense_category = input("Enter expense category: ").strip().lower()
-                if not expense_category.isalpha():
-                    print(f"Invalid Expense Category: {expense_category}. Expense Category should contain only alphabets")
+                expense_category = " ".join(input("Enter expense category: ").strip().split()).lower()
+                valid_expense_category = check_valid_expense_category(expense_category)
+                if not valid_expense_category:
+                    print(f"Invalid Expense Category: {expense_category}. Expense Category should contain only alphabets and cant be empty")
                 elif expense_category in EXPENSE_CATEGORY:
                     print(f"Expense category: {expense_category} exists...")
                 else:
-                    
                     cursor = CONN.cursor()
                     try:
                         cursor.execute("""
-                            INSERT OR IGNORE INTO expense_categories(category_name) Values(?)
+                            INSERT INTO expense_categories(category_name) Values(?)
                     """,(expense_category,))
-
+                        last_added_id = cursor.lastrowid
                         CONN.commit()
-                        # Update the EXPENSE_CATEGORY
-                        EXPENSE_CATEGORY[expense_category]=0
-                        # Update the CATEGORY_ID_MAP
-                        cursor.execute("SELECT * FROM expense_categories")
-                        rows = cursor.fetchall()
-                        for data in rows:
-                            CATEGORY_ID_MAP[data[1]] = data[0]
-                        print(f"{expense_category} stored successfully..")
-                        
+
                     except sqlite3.Error as error:
                         CONN.rollback()
                         print(f"Error type: {type(error).__name__}")
                         print(f"Error message: {repr(error)}")
+
+                    else:
+                        # Update the data
+                        EXPENSE_CATEGORY[expense_category] = 0
+                        CATEGORY_ID_MAP[expense_category] = last_added_id
+                        print(f"{expense_category.upper()} stored successfully")
 
                     finally:
                         cursor.close()
@@ -62,7 +69,8 @@ def input_expense_type():
 def print_all_expense_types_loaded():
     """Function which will print all the expense categories added to the EXPENSE_CATEGORY"""
     if len(EXPENSE_CATEGORY) == 0:
-        return "No Expense Categories present. Add one to continue"
+        print("No Expense Categories present. Add one to continue")
+        return
     print("|-------------------------------------|")
     print("     Expense Categories Available      ")                   
     print("|-------------------------------------|")
@@ -81,8 +89,9 @@ def input_amount_for_expense_cat():
     running= True
     while running:
         
-        expense_cat = input("Enter the Expense Category: ").strip().lower()
-        if not expense_cat.isalpha():
+        expense_cat = " ".join(input("Enter the Expense Category: ").strip().split()).lower()
+        valid_expense_category = check_valid_expense_category(expense_cat)
+        if not valid_expense_category:
             print("Expense Category should contain alphabets only.")    
             continue
 
